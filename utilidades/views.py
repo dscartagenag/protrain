@@ -4,7 +4,7 @@ from django.shortcuts import render
 from io import BytesIO
 
 
-def generate_qr(request):    
+def generar_qr(request):    
     data = request.GET.get('data', 'protrain la mejor opcion')
 
     qr = qrcode.QRCode(
