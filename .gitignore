@@ -4,6 +4,7 @@
 # Proyecto
 *.copy
 notas/
+*.png
 
 ### Django ###
 *.log
