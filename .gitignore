@@ -5,6 +5,7 @@
 *.copy
 notas/
 *.png
+*copy*
 
 ### Django ###
 *.log
