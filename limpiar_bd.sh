@@ -1,9 +1,9 @@
-rm ./protrain/db.sqlite3
-touch ./protrain/db.sqlite3
+rm db.sqlite3
+touch db.sqlite3
 
-find ./protrain "*_initial.py_" -delete
-find ./protrain "*.pyc" -delete
+find ./ -name "*_initial.py" -delete
+find ./ -name "*.pyc" -delete
 
-python3 manage makemigrations
-python3 manage migrate
+python3 manage.py makemigrations
+python3 manage.py migrate
 
