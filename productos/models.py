@@ -1,7 +1,6 @@
 from django.db import models
 
-from ..usuarios.models import Operador
-
+from protrain.productos.models import Operador
 
 # Estado de control de calidad
 ESTATUS_CALIDAD = (
@@ -63,6 +62,27 @@ class Lote(models.Model):
         return cls.objects.filter(estado_lote="Activo")
 
 
+class Receta(models.Model):
+    """
+    Representa una receta para la fabricación de un producto.
+
+    Atributos:
+        nombre (str): Nombre de la receta.
+        descripcion (str): Descripción de la receta.
+    """
+    nombre = models.CharField(max_length=50, null=False, blank=False)
+    descripcion = models.CharField(max_length=255, null=False, blank=False)
+
+    def __str__(self):
+        """
+        Representación en cadena del objeto Receta.
+
+        Returns:
+            str: Nombre de la receta.
+        """
+        return self.nombre
+
+
 class Producto(models.Model):
     """
     Representa un producto fabricado en un lote.
@@ -76,10 +96,8 @@ class Producto(models.Model):
         precio (int): Precio del producto en la moneda local.
     """
     nombre = models.CharField(max_length=50)
-    lote = models.ForeignKey(
-        Lote, on_delete=models.RESTRICT, verbose_name="Lote asociado")
-    receta = models.ForeignKey(
-        'Receta', on_delete=models.SET_NULL, null=True, verbose_name="Receta utilizada")
+    lote = models.ForeignKey(Lote, on_delete=models.RESTRICT, verbose_name="Lote asociado")
+    receta = models.ForeignKey(Receta, on_delete=models.SET_NULL, null=True, verbose_name="Receta utilizada")
     sabor = models.CharField(max_length=50)
     cantidad = models.IntegerField()
     precio = models.SmallIntegerField()
@@ -115,27 +133,6 @@ class Ingrediente(models.Model):
         return f"{self.nombre} ({self.unidad_medida})"
 
 
-class Receta(models.Model):
-    """
-    Representa una receta para la fabricación de un producto.
-
-    Atributos:
-        nombre (str): Nombre de la receta.
-        descripcion (str): Descripción de la receta.
-    """
-    nombre = models.CharField(max_length=50, null=False, blank=False)
-    descripcion = models.CharField(max_length=255, null=False, blank=False)
-
-    def __str__(self):
-        """
-        Representación en cadena del objeto Receta.
-
-        Returns:
-            str: Nombre de la receta.
-        """
-        return self.nombre
-
-
 class RecetaIngrediente(models.Model):
     """
     Relación entre recetas e ingredientes, con las cantidades requeridas.
@@ -145,8 +142,8 @@ class RecetaIngrediente(models.Model):
         ingrediente (ForeignKey): Relación con el ingrediente asociado.
         cantidad (int): Cantidad requerida del ingrediente en la receta.
     """
-    receta = models.ForeignKey('Receta', on_delete=models.RESTRICT)
-    ingrediente = models.ForeignKey('Ingrediente', on_delete=models.RESTRICT)
+    receta = models.ForeignKey(Receta, on_delete=models.RESTRICT)
+    ingrediente = models.ForeignKey(Ingrediente, on_delete=models.RESTRICT)
     cantidad = models.SmallIntegerField()
 
     class Meta:
