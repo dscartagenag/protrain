@@ -1,6 +1,6 @@
 from django.db import models
 
-from protrain.productos.models import Operador
+from usuarios.models import Operador
 
 # Estado de control de calidad
 ESTATUS_CALIDAD = (
@@ -40,7 +40,7 @@ class Lote(models.Model):
     fecha_registro_sistema = models.DateField(auto_now_add=True)
     observaciones = models.CharField(max_length=255, null=True, blank=True)
     estado_lote = models.CharField(max_length=50, choices=ESTADO_LOTE)
-    operador = models.ForeignKey('Operador', on_delete=models.RESTRICT)
+    operador = models.ForeignKey(Operador, on_delete=models.RESTRICT)
 
     def __str__(self):
         """
