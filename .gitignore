@@ -12,6 +12,7 @@ notas/
 *.pot
 *.pyc
 __pycache__/
+*_initial.py
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
